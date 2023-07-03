@@ -1,9 +1,6 @@
 package com.emsi.mai.ebankbackend;
 
-import com.emsi.mai.ebankbackend.entities.AccountOperation;
-import com.emsi.mai.ebankbackend.entities.CurrentAccount;
-import com.emsi.mai.ebankbackend.entities.Customer;
-import com.emsi.mai.ebankbackend.entities.SavingAccount;
+import com.emsi.mai.ebankbackend.entities.*;
 import com.emsi.mai.ebankbackend.enums.AccountStatus;
 import com.emsi.mai.ebankbackend.enums.OperationType;
 import com.emsi.mai.ebankbackend.repositories.AccountOperationRepository;
@@ -36,6 +33,7 @@ public class EbankBackendApplication {
                 customer.setEmail(name + "@gmail.com");
                 customerRepository.save(customer);
             });
+            //utilisation d'une expressions lamda pour la creation un CC et un CE pour chaque customer
             customerRepository.findAll().forEach(cust->{
                 CurrentAccount currentAccount= new CurrentAccount();
                 currentAccount.setId(UUID.randomUUID().toString());
@@ -55,6 +53,7 @@ public class EbankBackendApplication {
                 savingAccount.setInterestRate(5.5);
                 bankAccountRepository.save(savingAccount);
             });
+            //utilisation d'une expressions lamda pour la creation des comptes pour chaque customer
             bankAccountRepository.findAll().forEach(acc->{
                 for (int i=0; i<10; i++){
                     AccountOperation accountOperation = new AccountOperation();
@@ -64,6 +63,22 @@ public class EbankBackendApplication {
                     accountOperation.setBankAccount(acc);
                     accountOperationRepository.save(accountOperation);
                 }
+                //affichage d'un compte bancaire avec l'id
+                BankAccount bankAccount=
+                        bankAccountRepository.findAllById("a414e605-bfb8-4c3d-95d7-c2ab467e79e3").orElse(null)
+                System.out.println("****************************************");
+                System.out.println(bankAccount.getId());
+                System.out.println(bankAccount.getBalance());
+                System.out.println(bankAccount.getStatus());
+                System.out.println(bankAccount.getCreatedAt());
+                System.out.println(bankAccount.getCustomer().getName());
+                System.out.println(bankAccount.getClass().getSimpleName());
+                if(bankAccount instanceof CurrentAccount){
+                    System.out.println("Over Draft: "+ ((CurrentAccount)bankAccount).getOverDraft());
+                } else if(bankAccount instanceof SavingAccount){
+                    System.out.println("Rate: "+((SavingAccount)bankAccount).setInterestRate());
+                }
+
             });
         };
     }
