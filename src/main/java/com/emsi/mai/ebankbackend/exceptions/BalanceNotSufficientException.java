@@ -1,6 +1,7 @@
 package com.emsi.mai.ebankbackend.exceptions;
 
-public class BalanceNotSufficientException extends Throwable {
-    public BalanceNotSufficientException(String balanceNotSufficient) {
+public class BalanceNotSufficientException extends Exception  {
+    public BalanceNotSufficientException(String message) {
+        super(message);
     }
 }
