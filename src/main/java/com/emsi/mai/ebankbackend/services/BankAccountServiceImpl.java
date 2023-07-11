@@ -6,7 +6,7 @@ import com.emsi.mai.ebankbackend.enums.OperationType;
 import com.emsi.mai.ebankbackend.exceptions.BalanceNotSufficientException;
 import com.emsi.mai.ebankbackend.exceptions.BankAccountNotFoundException;
 import com.emsi.mai.ebankbackend.exceptions.CustomerNotFoundException;
-import com.emsi.mai.ebankbackend.mappers.BankAccounyMapperImpl;
+import com.emsi.mai.ebankbackend.mappers.BankAccountMapperImpl;
 import com.emsi.mai.ebankbackend.repositories.AccountOperationRepository;
 import com.emsi.mai.ebankbackend.repositories.BankAccountRepository;
 import com.emsi.mai.ebankbackend.repositories.CustomerRepository;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -35,15 +34,31 @@ public class BankAccountServiceImpl implements BankAccountService {
     private CustomerRepository customerRepository;
     private BankAccountRepository bankAccountRepository;
     private AccountOperationRepository accountOperationRepository;
-    private BankAccounyMapperImpl dtoMapper;
+    private BankAccountMapperImpl dtoMapper;
     //Logger = interface pour login,  Loggerfactory =class pour creation de logger instance, getLogger= method to get logger instance, this....= get fully qualified name for class
     //Logger log =  LoggerFactory.getLogger(this.getClass().getName());
 
+
+
     @Override
-    public Customer saveCustomer(Customer customer) {
+    public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
         log.info("Saving new customer ");
+        Customer customer = dtoMapper.fromCustomerDTO(customerDTO);
         Customer savedCustomer = customerRepository.save(customer);
-        return savedCustomer;
+        return dtoMapper.fromCustomer(savedCustomer);
+    }
+
+    @Override
+    public CustomerDTO updateCustomer(CustomerDTO customerDTO) {
+        log.info("Saving new customer ");
+        Customer customer = dtoMapper.fromCustomerDTO(customerDTO);
+        Customer savedCustomer = customerRepository.save(customer);
+        return dtoMapper.fromCustomer(savedCustomer);
+    }
+
+    @Override
+    public void deleteCustomer(Long customerId){
+        customerRepository.deleteById(customerId);
     }
 
     @Override
@@ -142,5 +157,12 @@ public class BankAccountServiceImpl implements BankAccountService {
     @Override
     public List<BankAccount> bankAccountList(){
         return bankAccountRepository.findAll();
+    }
+
+    @Override
+    public CustomerDTO getCustomer(Long customerId){
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer Not Found"));
+        return  dtoMapper.fromCustomer(customer);
     }
 }

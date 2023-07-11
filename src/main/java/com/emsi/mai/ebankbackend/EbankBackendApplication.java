@@ -1,5 +1,6 @@
 package com.emsi.mai.ebankbackend;
 
+import com.emsi.mai.ebankbackend.dtos.CustomerDTO;
 import com.emsi.mai.ebankbackend.entities.*;
 import com.emsi.mai.ebankbackend.enums.AccountStatus;
 import com.emsi.mai.ebankbackend.enums.OperationType;
@@ -30,9 +31,9 @@ public class EbankBackendApplication {
     @Bean
     CommandLineRunner commandLineRunner(BankAccountService bankAccountService){
         return args -> {
-          Stream.of("Hassan","Imane","Mohamed").forEach(name->{
-              Customer customer = new Customer();
-              customer.setEmail(name);
+          Stream.of("Hassan","Salma","Mohamed").forEach(name->{
+              CustomerDTO customer = new CustomerDTO();
+              customer.setName(name);
               customer.setEmail(name+"@gmail.com");
               bankAccountService.saveCustomer(customer);
           });
@@ -70,7 +71,7 @@ public class EbankBackendApplication {
                 System.out.println(bankAccount.getBalance());
                 System.out.println(bankAccount.getStatus());
                 System.out.println(bankAccount.getCreatedAt());
-                System.out.println(bankAccount.getCustomer().getName());
+                //System.out.println(bankAccount.getCustomer().getName());
                 System.out.println(bankAccount.getClass().getSimpleName());
                 if (bankAccount instanceof CurrentAccount) {
                     System.out.println("Over Draft: " + ((CurrentAccount) bankAccount).getOverDraft());
