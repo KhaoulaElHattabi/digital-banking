@@ -1,5 +1,6 @@
 package com.emsi.mai.ebankbackend.web;
 
+import com.emsi.mai.ebankbackend.dtos.CustomerDTO;
 import com.emsi.mai.ebankbackend.entities.BankAccount;
 import com.emsi.mai.ebankbackend.entities.Customer;
 import com.emsi.mai.ebankbackend.services.BankAccountService;
@@ -18,7 +19,7 @@ import java.util.List;
 public class CustomerRestController {
     private BankAccountService bankAccountService;
     @GetMapping("/customers")
-    public List<Customer> customerList(){
+    public List<CustomerDTO> customerList(){
         return bankAccountService.listCustomers();
     }
 }
