@@ -1,6 +1,9 @@
 package com.emsi.mai.ebankbackend.services;
 
+import com.emsi.mai.ebankbackend.dtos.BankAccountDTO;
+import com.emsi.mai.ebankbackend.dtos.CurrentBankAccountDTO;
 import com.emsi.mai.ebankbackend.dtos.CustomerDTO;
+import com.emsi.mai.ebankbackend.dtos.SavingBankAccountDTO;
 import com.emsi.mai.ebankbackend.entities.BankAccount;
 import com.emsi.mai.ebankbackend.entities.CurrentAccount;
 import com.emsi.mai.ebankbackend.entities.Customer;
@@ -20,15 +23,15 @@ public interface BankAccountService {
 
      void deleteCustomer(Long customerId);
 
-     CurrentAccount saveCurrentBankAccount(double initialBalance, double overDraft, Long customerId) throws CustomerNotFoundException;
-     SavingAccount saveSavingBankAccount(double initialBalance, double interestRate, Long customerId) throws CustomerNotFoundException;
+     CurrentBankAccountDTO saveCurrentBankAccount(double initialBalance, double overDraft, Long customerId) throws CustomerNotFoundException;
+     SavingBankAccountDTO saveSavingBankAccount(double initialBalance, double interestRate, Long customerId) throws CustomerNotFoundException;
 
      List<CustomerDTO> listCustomers();
-     BankAccount getBankAccount(String accountId) throws BankAccountNotFoundException;
+     BankAccountDTO getBankAccount(String accountId) throws BankAccountNotFoundException;
      void debit(String accountId, double amount, String description) throws BankAccountNotFoundException, BalanceNotSufficientException;
      void credit(String accountId, double amount, String description) throws BankAccountNotFoundException, BalanceNotSufficientException;
      void transfer(String accountIdSource, String accountIdDestination, double amount) throws BankAccountNotFoundException, BalanceNotSufficientException;
-     List<BankAccount> bankAccountList();
+     List<BankAccountDTO> bankAccountList();
 
      CustomerDTO getCustomer(Long customerId);
 }
