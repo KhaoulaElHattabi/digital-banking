@@ -1,9 +1,6 @@
 package com.emsi.mai.ebankbackend.services;
 
-import com.emsi.mai.ebankbackend.dtos.BankAccountDTO;
-import com.emsi.mai.ebankbackend.dtos.CurrentBankAccountDTO;
-import com.emsi.mai.ebankbackend.dtos.CustomerDTO;
-import com.emsi.mai.ebankbackend.dtos.SavingBankAccountDTO;
+import com.emsi.mai.ebankbackend.dtos.*;
 import com.emsi.mai.ebankbackend.entities.BankAccount;
 import com.emsi.mai.ebankbackend.entities.CurrentAccount;
 import com.emsi.mai.ebankbackend.entities.Customer;
@@ -34,4 +31,8 @@ public interface BankAccountService {
      List<BankAccountDTO> bankAccountList();
 
      CustomerDTO getCustomer(Long customerId);
+
+     List<AccountOperationDTO> accountHistory(String accountId);
+
+     AccountHistoryDTO getAccountHistory(String accountId, int page, int size) throws BankAccountNotFoundException;
 }

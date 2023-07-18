@@ -1,8 +1,10 @@
 package com.emsi.mai.ebankbackend.mappers;
 
+import com.emsi.mai.ebankbackend.dtos.AccountOperationDTO;
 import com.emsi.mai.ebankbackend.dtos.CurrentBankAccountDTO;
 import com.emsi.mai.ebankbackend.dtos.CustomerDTO;
 import com.emsi.mai.ebankbackend.dtos.SavingBankAccountDTO;
+import com.emsi.mai.ebankbackend.entities.AccountOperation;
 import com.emsi.mai.ebankbackend.entities.CurrentAccount;
 import com.emsi.mai.ebankbackend.entities.Customer;
 import com.emsi.mai.ebankbackend.entities.SavingAccount;
@@ -56,6 +58,12 @@ public class BankAccountMapperImpl {
         BeanUtils.copyProperties(currentBankAccountDTO,currentAccount);
         currentAccount.setCustomer(fromCustomerDTO(currentBankAccountDTO.getCustomerDTO()));
         return currentAccount;
+    }
+
+    public AccountOperationDTO fromAccountOperation(AccountOperation accountOperation){
+        AccountOperationDTO accountOperationDTO = new AccountOperationDTO();
+        BeanUtils.copyProperties(accountOperation,accountOperationDTO);
+        return accountOperationDTO;
     }
 }
 
